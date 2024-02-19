@@ -8,16 +8,17 @@ class Weather {
 
     processWeatherData(data) {
         try {
-            const currentWeather = data.current;
+            // Modify the following based on the structure of the Visual Crossing API response
+            const currentWeather = data.currentConditions;
 
-            if (currentWeather && currentWeather.temperature !== undefined) {
-                this.temperature = currentWeather.temperature;
+            if (currentWeather && currentWeather.temp !== undefined) {
+                this.temperature = currentWeather.temp;
             } else {
                 this.temperature = 'N/A';
             }
 
-            if (currentWeather && currentWeather.weather_descriptions && currentWeather.weather_descriptions[0]) {
-                this.description = currentWeather.weather_descriptions[0];
+            if (currentWeather && currentWeather.description) {
+                this.description = currentWeather.description;
             } else {
                 this.description = 'N/A';
             }
@@ -42,8 +43,9 @@ document.getElementById('weatherForm').addEventListener('submit', function (even
     event.preventDefault();
     const locationInput = document.getElementById('locationInput').value;
 
-    const apiKey = '39c204ddf0ab508e4e913cb8968a4b72';
-    const apiUrl = `https://api.weatherstack.com/current?access_key=${apiKey}&query=${locationInput}`;
+    // Use the Visual Crossing Weather API
+    const apiKey = 'TC2PTV3D8BPVCEJFRXN67DET9';
+    const apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationInput}?key=${apiKey}&unitGroup=metric&contentType=json`;
 
     fetch(apiUrl)
         .then(response => {
