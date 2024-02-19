@@ -8,11 +8,11 @@ class Weather {
 
     processWeatherData(data) {
         try {
-            // Modify the following based on the structure of the Visual Crossing API response
             const currentWeather = data.currentConditions;
 
             if (currentWeather && currentWeather.temp !== undefined) {
-                this.temperature = currentWeather.temp;
+                // Convert from Celsius to Fahrenheit
+                this.temperature = (currentWeather.temp * 9/5) + 32;
             } else {
                 this.temperature = 'N/A';
             }
@@ -22,7 +22,7 @@ class Weather {
             } else {
                 this.description = 'N/A';
             }
-            // Process other relevant data from the API response
+            // Other relevant data from the API response
         } catch (error) {
             console.error('Error processing weather data:', error);
             throw error; // Throw the caught error directly
@@ -33,7 +33,7 @@ class Weather {
         console.log('Displaying weather info');
         const weatherInfoDiv = document.getElementById('weatherInfo');
         weatherInfoDiv.innerHTML = `
-            <p>Temperature: ${this.temperature}°C</p>
+            <p>Temperature: ${this.temperature.toFixed(2)}°F</p>
             <p>Description: ${this.description}</p>
         `;
     }
@@ -43,7 +43,7 @@ document.getElementById('weatherForm').addEventListener('submit', function (even
     event.preventDefault();
     const locationInput = document.getElementById('locationInput').value;
 
-    // Use the Visual Crossing Weather API
+    // Visual Crossing Weather API
     const apiKey = 'TC2PTV3D8BPVCEJFRXN67DET9';
     const apiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationInput}?key=${apiKey}&unitGroup=metric&contentType=json`;
 
